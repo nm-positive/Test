@@ -31,24 +31,38 @@ jobs:
       run: |
         Compress-Archive -Path dist\sample.exe -DestinationPath release.zip
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
+    #     release_name: Release ${{ github.ref }}
+    #     body: 'New release ${{ github.ref }}'
+    #     draft: false
+    #     prerelease: false
+
+    - name: Get Release Upload URL
+      id: get_upload_url
+      uses: actions/github-script@v5
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: 'New release ${{ github.ref }}'
-        draft: false
-        prerelease: false
+        script: |
+          const { repo: { owner, repo }, sha } = context
+          const tag = "${{ github.ref }}"  # 혹은 특정 태그명
+          const release = await github.rest.repos.getReleaseByTag({
+            owner,
+            repo,
+            tag
+          })
+          return release.data.upload_url
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.get_upload_url.outputs.result }}
         asset_path: ./release.zip
         asset_name: release.zip
         asset_content_type: application/zip
