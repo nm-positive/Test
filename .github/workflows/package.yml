@@ -1,5 +1,8 @@
 name: Python Application Build and Release
 
+# Github Action 
+# 'on' https://docs.github.com/ko/actions/using-workflows/workflow-syntax-for-github-actions#on
+# 'filter' https://docs.github.com/ko/actions/using-workflows/workflow-syntax-for-github-actions#using-filters
 on:
   push:
     tags:
