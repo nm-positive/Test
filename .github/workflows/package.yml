@@ -50,11 +50,7 @@ jobs:
         script: |
           const { repo: { owner, repo }, sha } = context
           const tag = "${{ github.ref }}"  # 혹은 특정 태그명
-          const release = await github.rest.repos.getReleaseByTag({
-            owner,
-            repo,
-            tag
-          })
+          const release = await github.rest.repos.getReleaseByTag({owner,repo,tag})
           return release.data.upload_url
 
     - name: Upload Release Asset
