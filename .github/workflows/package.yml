@@ -1,14 +1,53 @@
-name: Python package
+name: Python Application Build and Release
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
-  build:
-    runs-on: windows--latest
-    strategy:
-      matrix:
-        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
+  build-and-deploy:
+    runs-on: windows-latest
+
     steps:
-      - name: Sample
-        run: |
-          echo "Hello World"
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install PyInstaller
+      run: pip install pyinstaller
+
+    - name: Build Executable
+      run: |
+        cd Serializer
+        pyinstaller -F -n=serializer --icon=.\ico\icon.ico .\main.py
+
+    - name: Archive Executable and Keys
+      run: |
+        Compress-Archive -Path dist\serializer.exe, keys -DestinationPath release.zip
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: 'New release ${{ github.ref }}'
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release.zip
+        asset_name: release.zip
+        asset_content_type: application/zip
