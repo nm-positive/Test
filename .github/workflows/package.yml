@@ -39,7 +39,7 @@ jobs:
           echo "CURRENT_TAG=$CURRENT_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo $CURRENT_TAG
           # 현재 커밋된 태그를 제외한 이전 태그를 가져옵니다.
-          $PREVIOUS_TAG = git describe --tags --abbrev=0 "$CURRENT_TAG"+`^`
+          $PREVIOUS_TAG = git describe --tags --abbrev=0 "$CURRENT_TAG"+'^'
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV          
           echo $PREVIOUS_TAG
           # 이전 태그 부터 변경된 항목들을 모두 조회합니다.
