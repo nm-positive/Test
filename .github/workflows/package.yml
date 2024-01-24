@@ -74,12 +74,14 @@ jobs:
         asset_name: release.zip
         asset_content_type: application/zip
 
-    - name: Telegram REST API
+    - name: Send Telegram API
       run: |
-        curl --request POST \
-        --url https://api.telegram.org/bot6923806515:AAG2unZK-A2oKn6bKZx5Akz1a_TzrDqhbpc/sendMessage \
-        --header 'content-type: application/json' \
-        --data '{
-            "chat_id":-4005607947, 
-            "text":"TT"
-          }'        
+        $body = @{
+          chat_id = -4005607947
+          text = 'ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁTT'
+        } | ConvertTo-Json
+
+        $url = 'https://api.telegram.org/bot6923806515:AAG2unZK-A2oKn6bKZx5Akz1a_TzrDqhbpc/sendMessage'
+
+        $response = Invoke-RestMethod -Uri $url -Method 'POST' -Body $body -ContentType 'application/json'
+        echo "Response: $response" 
