@@ -42,13 +42,13 @@ jobs:
         body: 'New release ${{ github.ref }}'
         draft: false
         prerelease: false
-
+    
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.get_upload_url.outputs.result }}
+        upload_url: ${{ steps.get_upload_url.outputs.upload_url }}
         asset_path: ./release.zip
         asset_name: release.zip
         asset_content_type: application/zip
