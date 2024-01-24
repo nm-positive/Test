@@ -48,9 +48,12 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const { repo: { owner, repo }, sha } = context
-          const tag = "${{ github.ref }}"  # 혹은 특정 태그명
-          const release = await github.rest.repos.getReleaseByTag({owner,repo,tag})
+          const tag = "${{ github.ref }}" 
+          const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: tag
+          });
           return release.data.upload_url
 
     - name: Upload Release Asset
