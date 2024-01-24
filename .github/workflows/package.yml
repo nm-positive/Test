@@ -31,6 +31,12 @@ jobs:
       run: |
         Compress-Archive -Path dist\sample.exe -DestinationPath release.zip
 
+    - name: Get Tag Message
+      id: get_tag_message
+      run: |
+        TAG_MESSAGE=$(git log -1 --pretty=format:"%s" ${{ github.ref }})
+        echo "TAG_MESSAGE=$TAG_MESSAGE" >> $GITHUB_ENV
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -39,7 +45,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: 'New release ${{ github.ref }}'
+        body: ${{ env.TAG_MESSAGE }}
         draft: false
         prerelease: false
     
