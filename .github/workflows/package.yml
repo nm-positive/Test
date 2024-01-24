@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # 모든 태그와 커밋을 가져오기 위해 필요
 
     - name: Set up Python 3.11
       uses: actions/setup-python@v2
@@ -35,16 +37,13 @@ jobs:
       id: update_tag_range
       run: |
           # 현재 커밋된 태그 정보를 가져옵니다.
-          #$CURRENT_TAG = git describe --tags --abbrev=0
-          #echo "CURRENT_TAG=$CURRENT_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV
-          #echo $CURRENT_TAG
-          # 현재 커밋된 태그를 제외한 이전 태그를 가져옵니다.
+          $CURRENT_TAG = git describe --tags --abbrev=0
+          echo "CURRENT_TAG=$CURRENT_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV
+          echo "Current Tag: $CURRENT_TAG"
           # FIX: v3.0^ 이 구문이 계속 없다고 나옴
-          #$PREVIOUS_TAG = git describe --tags --abbrev=0 $CURRENT_TAG^
-          #echo $PREVIOUS_TAG
-          $PREVIOUS_TAG = git tag --sort=-creatordate | Select-Object -Index 1
+          $PREVIOUS_TAG = git describe --tags --abbrev=0 $CURRENT_TAG^
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV          
-          echo PreviousTag:$PREVIOUS_TAG
+          echo "Previous Tag: $PREVIOUS_TAG"
           # 이전 태그 부터 변경된 항목들을 모두 조회합니다.
           $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"[%h] %s"
           echo "CHANGED_REVISIONS=$CHANGED_REVISIONS" | Out-File -Append -FilePath $env:GITHUB_ENV
