@@ -37,15 +37,15 @@ jobs:
     - name: Tag Info
       id: update_tag_range
       run: |
-          # 현재 커밋된 태그 정보를 가져옵니다.
+          # 최신 태그 조회
           $CURRENT_TAG = git describe --tags --abbrev=0
           echo "CURRENT_TAG=$CURRENT_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo "Current Tag: $CURRENT_TAG"
-          # FIX: v3.0^ 이 구문이 계속 없다고 나옴
+          # 최신 태그를 제외한 마지막 태그 조회
           $PREVIOUS_TAG = git describe --tags --abbrev=0 $CURRENT_TAG^
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV          
           echo "Previous Tag: $PREVIOUS_TAG"
-          # 이전 태그 부터 변경된 항목들을 모두 조회합니다.
+          # 마지막 태그 부터의 모든 커밋 정보를 조회
           $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"<%h> %s"
           echo "CHANGED_REVISIONS=$CHANGED_REVISIONS" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo $CHANGED_REVISIONS
