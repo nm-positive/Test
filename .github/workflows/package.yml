@@ -37,12 +37,15 @@ jobs:
           # 현재 커밋된 태그 정보를 가져옵니다.
           $CURRENT_TAG = git describe --tags --abbrev=0
           echo "CURRENT_TAG=$CURRENT_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV
+          echo $CURRENT_TAG
           # 현재 커밋된 태그를 제외한 이전 태그를 가져옵니다.
-          $PREVIOUS_TAG = git describe --tags --abbrev=0 "$CURRENT_TAG"^
+          $PREVIOUS_TAG = git describe --tags --abbrev=0 "$CURRENT_TAG^"
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV          
+          echo $PREVIOUS_TAG
           # 이전 태그 부터 변경된 항목들을 모두 조회합니다.
           $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"[%h] %s"
           echo "CHANGED_REVISIONS=$CHANGED_REVISIONS" | Out-File -Append -FilePath $env:GITHUB_ENV
+          echo $CHANGED_REVISIONS
 
     - name: Create Release
       id: create_release
