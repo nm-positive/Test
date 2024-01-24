@@ -1,5 +1,9 @@
 name: Python Application Build and Release
 
+# Billing
+# 'Usage limits billing and administration' https://docs.github.com/ko/actions/learn-github-actions/usage-limits-billing-and-administration
+# '**Disabling or limiting GitHub Actions for your repository or organization' https://docs.github.com/ko/actions/learn-github-actions/usage-limits-billing-and-administration#disabling-or-limiting-github-actions-for-your-repository-or-organization
+
 # Github Action 
 # 'on' https://docs.github.com/ko/actions/using-workflows/workflow-syntax-for-github-actions#on
 # 'filter' https://docs.github.com/ko/actions/using-workflows/workflow-syntax-for-github-actions#using-filters
