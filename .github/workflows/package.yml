@@ -23,7 +23,7 @@ jobs:
 
     - name: Build Executable
       run: |
-        ls -al
+        ls
         cd Serializer
         pyinstaller -F -n=serializer --icon=.\ico\icon.ico .\main.py
 
