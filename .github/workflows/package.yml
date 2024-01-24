@@ -29,7 +29,7 @@ jobs:
 
     - name: Archive Executable and Keys
       run: |
-        Compress-Archive -Path dist\sample.exe, keys -DestinationPath release.zip
+        Compress-Archive -Path dist\sample.exe -DestinationPath release.zip
 
     - name: Create Release
       id: create_release
