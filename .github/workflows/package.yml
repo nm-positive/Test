@@ -76,10 +76,10 @@ jobs:
 
     - name: Send Telegram API
       run: |
-        $text = "$[Update]`n
-${{ steps.create_release.outputs.html_url }}`n
-Test"
-      
+        $text = "[Update]`n" +
+        "${{ steps.create_release.outputs.html_url }}`n" +
+        "Test"
+
         $body = @{
           chat_id = -4005607947
           text = $text
@@ -88,4 +88,4 @@ Test"
         $url = 'https://api.telegram.org/bot6923806515:AAG2unZK-A2oKn6bKZx5Akz1a_TzrDqhbpc/sendMessage'
 
         $response = Invoke-RestMethod -Uri $url -Method 'POST' -Body $body -ContentType 'application/json'
-        echo "Response: $response" 
+        echo "Response: $response"
