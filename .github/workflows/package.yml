@@ -48,7 +48,7 @@ jobs:
           # 마지막 태그 부터의 모든 커밋 정보를 조회
           $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"[%h] %s"
           # 12
-          echo "CHANGED_REVISIONS=$(($CHANGED_REVISIONS -replace "`n", "%0A"))" | Out-File -Append -FilePath $env:GITHUB_ENV
+          echo "CHANGED_REVISIONS=$(($CHANGED_REVISIONS -replace "`n", "<br>"))" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo $CHANGED_REVISIONS
 
     - name: Create Release
