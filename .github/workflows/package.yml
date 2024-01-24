@@ -1,11 +1,14 @@
+name: Python package
+
+on: [push]
+
 jobs:
-  pyinstaller-build:
-    runs-on: windows-latest
+  build:
+    runs-on: windows--latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
     steps:
-      - name: Create Executable
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.9'
-          spec: 'main.py'
-          upload_exe_with_name: 'UploadExeWithName'
-          options: --onefile, --name "Tools", 
+      - name: Sample
+        run: |
+          echo "Hello World"
