@@ -13,7 +13,8 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0  # 모든 태그와 커밋을 가져오기 위해 필요
+        # 모든 TAG 와 COMMIT 을 가져오기 위한 값 ( 해당 값이 아닌 경우 하단의 스탭에서 정상적인 조회가 되지 않음 )
+        fetch-depth: 0  
 
     - name: Set up Python 3.11
       uses: actions/setup-python@v2
@@ -45,7 +46,7 @@ jobs:
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" | Out-File -Append -FilePath $env:GITHUB_ENV          
           echo "Previous Tag: $PREVIOUS_TAG"
           # 이전 태그 부터 변경된 항목들을 모두 조회합니다.
-          $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"[%h] %s"
+          $CHANGED_REVISIONS = git log "$PREVIOUS_TAG.." --pretty=format:"<%h> %s"
           echo "CHANGED_REVISIONS=$CHANGED_REVISIONS" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo $CHANGED_REVISIONS
 
