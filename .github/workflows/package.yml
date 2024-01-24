@@ -48,7 +48,7 @@ jobs:
           # 마지막 태그 부터의 모든 커밋 정보를 조회
           $CHANGED_REVISIONS_RESULT = git log "$PREVIOUS_TAG.." --pretty=format:"[%h] %s"
           $CHANGED_REVISIONS = $CHANGED_REVISIONS_RESULT -join "<br>"
-          # 123456
+          # 1234567
           echo "CHANGED_REVISIONS=$CHANGED_REVISIONS" | Out-File -Append -FilePath $env:GITHUB_ENV
           echo $CHANGED_REVISIONS
 
